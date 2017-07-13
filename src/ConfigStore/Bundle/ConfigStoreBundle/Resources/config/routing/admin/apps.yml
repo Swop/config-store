@@ -1,0 +1,53 @@
+admin_app_create:
+    path: /apps
+    defaults: { _controller: "config_store.controller.admin.app:createAction" }
+    requirements:
+        _method:  POST
+
+admin_app_view:
+    path: /apps/{appSlug}
+    defaults: { _controller: "config_store.controller.admin.app:viewAction" }
+    requirements:
+        _method:  GET
+
+admin_app_view_web:
+    path: /apps/{appSlug}/edit
+    defaults: { _controller: "config_store.controller.admin.app:viewWebAction" }
+    requirements:
+        _method:  GET
+
+admin_app_update:
+    path: /apps/{appSlug}
+    defaults: { _controller: "config_store.controller.admin.app:updateAction" }
+    requirements:
+        _method:  PUT
+
+admin_app_delete:
+    path: /apps/{appSlug}
+    defaults: { _controller: "config_store.controller.admin.app:deleteAction" }
+    requirements:
+        _method: DELETE
+
+admin_app_move_to_group:
+    path: /apps/{appSlug}/move
+    defaults: { _controller: "config_store.controller.admin.app:moveAction" }
+    requirements:
+        _method:  POST
+
+admin_app_diff:
+    path: /apps/{appSlug}/diff/{otherAppSlug}
+    defaults: { _controller: "config_store.controller.admin.app:diffAction" }
+    requirements:
+        _method:  GET
+
+admin_app_preview:
+    path: /apps/{appSlug}/preview
+    defaults: { _controller: "config_store.controller.admin.app:previewAction" }
+    requirements:
+        _method:  GET
+
+admin_app_revoke_api_key:
+    path: /apps/{appSlug}/api-key
+    defaults: { _controller: "config_store.controller.admin.app:revokeApiKeyAction" }
+    requirements:
+        _method:  DELETE

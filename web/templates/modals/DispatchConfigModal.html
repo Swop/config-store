@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">Dispatch config <code>{{ config.key }}</code></h4>
+</div>
+<form name="dispatchConfigForm" ng-submit="dispatch()" ng-init="init()">
+    <div class="modal-body">
+        <div ng-repeat="otherAppConfig in configValues" ng-class="{'alert': otherAppConfig.originalValue !== null, 'alert-warning': otherAppConfig.originalValue !== null}">
+            <div class="form-group">
+                <label for="config_value_{{ otherAppConfig.app.slug }}" ><span class="glyphicon glyphicon-warning-sign" ng-if="otherAppConfig.originalValue !== null"></span> {{ otherAppConfig.app.name }}</label>
+                <p ng-if="otherAppConfig.originalValue !== null">This app already have a config item with the same key.<br>Actual used value: <code>{{ otherAppConfig.originalValue }}</code></p>
+                <div class="input-group">
+                            <span class="input-group-addon">
+                                <input type="checkbox" ng-model="otherAppConfig.dispatch" />
+                              </span>
+                    <input type="text" id="config_value_{{ otherAppConfig.app.slug }}" name="config_value_{{ otherAppConfig.app.slug }}" class="form-control" placeholder="Config value" ng-model="otherAppConfig.value" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-default" ng-click="cancel()">Cancel</a>
+        <input class="btn btn-primary" type="submit" ng-disabled="disableSubmit" value="Dispatch" />
+    </div>
+</form>

@@ -1,0 +1,40 @@
+<section class="user-list" ng-init="init()">
+    <h1>Users
+        <div class="btn-group pull-right">
+            <a ng-click="addNewUserModalOpen()" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add user</a>
+        </div>
+    </h1>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Mail</th>
+                <th>Role</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in users|orderBy: ['-enabled', '-admin', 'username']" class="user-list-user" ng-click="viewUser(user)" ng-class="{'disabled-user': !user.enabled}">
+                <td><span ng-if="user.admin" class="label label-warning"><span class="glyphicon glyphicon-star"></span> ADMIN</span></td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <div class="btn-group btn-group-xs">
+                        <a ng-if="!user.admin" ng-click="promote(user);$event.stopPropagation();" class="btn btn-warning"><span class="glyphicon glyphicon-star"></span> Promote to admin</a>
+                        <a ng-if="user.admin" ng-click="demote(user);$event.stopPropagation();" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Demote to simple user</a>
+                    </div>
+                </td>
+                <td>
+                    <div class="btn-group btn-group-xs">
+                        <a ng-if="user.enabled" ng-click="deactivate(user);$event.stopPropagation();" class="btn btn-danger"><span class="glyphicon glyphicon-ban-circle"></span> Deactivate</a>
+                        <a ng-if="!user.enabled" ng-click="activate(user);$event.stopPropagation();" class="btn btn-success"><span class="glyphicon glyphicon-ok-circle"></span> Activate</a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>

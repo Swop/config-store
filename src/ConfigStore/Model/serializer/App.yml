@@ -1,0 +1,45 @@
+ConfigStore\Model\App:
+    exclusion_policy: ALL
+    access_type: public_method
+    read_only: true
+    virtual_properties:
+        isRef:
+            serialized_name: ref
+            type: boolean
+            groups: [App, AppGroup]
+    properties:
+        id:
+            expose: true
+            type: integer
+            groups: [App, AppGroup, ConfigItem, Diff]
+        name:
+            expose: true
+            type: string
+            groups: [App, AppGroup, ConfigItem, Diff]
+        slug:
+            expose: true
+            type: string
+            groups: [App, AppGroup, ConfigItem, Diff]
+        description:
+            expose: true
+            type: string
+            groups: [App, AppGroup]
+        group:
+            expose: true
+            type: ConfigStore\Model\AppGroup
+            groups: [App]
+#        ref:
+#            expose: true
+#            type: boolean
+#            groups: [App, Diff]
+#            read-only: true
+#            accessor:
+#                getter: isRefOfGroup
+        accessKey:
+            expose: true
+            type: string
+            groups: [App, AppGroup]
+        configItems:
+            expose: true
+            type: ArrayCollection<ConfigStore\Model\ConfigItem>
+            groups: [App, AppGroup, Diff]

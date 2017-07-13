@@ -1,0 +1,33 @@
+ConfigStore\Model\User:
+    exclusion_policy: ALL
+    access_type: public_method
+    read_only: true
+    properties:
+        id:
+            expose: true
+            type: integer
+            groups: [User]
+        username:
+            expose: true
+            type: string
+            groups: [User]
+        slug:
+            expose: true
+            type: string
+            groups: [User]
+        name:
+            expose: true
+            type: string
+            groups: [User]
+        email:
+            expose: true
+            type: string
+            groups: [User]
+        admin:
+            expose: true
+            type: boolean
+            groups: [User]
+        enabled:
+            expose: true
+            type: boolean
+            groups: [User]

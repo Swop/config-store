@@ -1,0 +1,174 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">Help</h4>
+</div>
+<div class="modal-body help-tutorial">
+    <tabset justified="true">
+        <tab heading="Strings">
+            <h2>Usage</h2>
+            <p>Every field, by default, will be mapped as string.<br>If you want to force a string for the config value, you can wrap the value with double quotes.</p>
+            <ul>
+                <li><code>"my_string"</code></li>
+                <li><code>my_string</code></li>
+            </ul>
+            <h2>Example</h2>
+            <tabset class="rendered-config-tabs">
+                <tab heading="Raw">
+                    <pre>"hello world"</pre>
+                </tab>
+                <tab heading="JSON">
+<pre>{
+    config_key: "hello world"
+}</pre>
+                </tab>
+                <tab heading="Yaml">
+                    <pre>config_key: hello world</pre>
+                </tab>
+                <tab heading="PHP">
+<pre>[
+    'config_key' => 'hello world'
+]</pre>
+                </tab>
+            </tabset>
+        </tab>
+        <tab heading="Numbers">
+            <h2>Usage</h2>
+            <p>Prefix the value with a <code>#</code> character.</p>
+            <ul>
+                <li><code>#34</code></li>
+                <li><code>#20.5</code></li>
+            </ul>
+            <h2>Example</h2>
+            <tabset class="rendered-config-tabs">
+                <tab heading="Raw">
+                    <pre>#20.5</pre>
+                </tab>
+                <tab heading="JSON">
+<pre>{
+    config_key: 20.5
+}</pre>
+                </tab>
+                <tab heading="Yaml">
+                    <pre>config_key: 20.5</pre>
+                </tab>
+                <tab heading="PHP">
+<pre>[
+    'config_key' => 20.5
+]</pre>
+                </tab>
+            </tabset>
+        </tab>
+        <tab heading="Booleans">
+            <h2>Usage</h2>
+            <p>Simply use the <code>true</code> and <code>false</code> keywords.</p>
+            <ul>
+                <li><code>true</code></li>
+                <li><code>false</code></li>
+            </ul>
+            <h2>Example</h2>
+            <tabset class="rendered-config-tabs">
+                <tab heading="Raw">
+                    <pre>true</pre>
+                </tab>
+                <tab heading="JSON">
+<pre>{
+    config_key: true
+}</pre>
+                </tab>
+                <tab heading="Yaml">
+                    <pre>config_key: true</pre>
+                </tab>
+                <tab heading="PHP">
+<pre>[
+    'config_key' => true
+]</pre>
+                </tab>
+            </tabset>
+        </tab>
+        <tab heading="Arrays">
+            <h2>Usage</h2>
+            <p>Use the square bracket form to represent an array.<br>You can use nested arrays if needed</p>
+            <p class="alert alert-warning">For now, dictionaries/associative arrays aren't supported.</p>
+            <p class="alert alert-warning"><strong>PHP exports:</strong> If you use PHP exports with <code>define</code> statements, the config value will be returned as serialized arrays (using native PHP serialization mechanism) since PHP's <code>define()</code> function doesn't support array as values.</p>
+            <ul>
+                <li><code>[my_string_value, my_other_string-value]</code></li>
+                <li><code>[#14, #56]</code></li>
+                <li><code>[[#14, #56], ["my_val", "another_val"]]</code></li>
+            </ul>
+            <h2>Example</h2>
+            <tabset class="rendered-config-tabs">
+                <tab heading="Raw">
+                    <pre>[[#14, #56], ["my_val", "another_val"]]</pre>
+                </tab>
+                <tab heading="JSON">
+<pre>{
+    config_key: [
+        [
+            14,
+            56
+        ],
+        [
+            "my_val",
+            "another_val"
+        ]
+    ]
+}</pre>
+                </tab>
+                <tab heading="Yaml">
+<pre>config_key:
+    -
+        - 14
+        - 56
+    -
+        - my_val
+        - another_val
+</pre>
+                </tab>
+                <tab heading="PHP">
+<pre>[
+    'config_key' => [
+        [
+            14,
+            56
+        ],
+        [
+            "my_val",
+            "another_val"
+        ]
+    ]
+]</pre>
+                </tab>
+            </tabset>
+        </tab>
+        <tab heading="Nulls">
+            <h2>Usage</h2>
+            <p>Use the <code>null</code> word. The case is insensitive (i.e. both <code>null</code> and <code>NULL</code> are accepted).</p>
+            <ul>
+                <li><code>null</code></li>
+                <li><code>NULL</code></li>
+            </ul>
+            <h2>Example</h2>
+            <tabset class="rendered-config-tabs">
+                <tab heading="Raw">
+                    <pre>null</pre>
+                </tab>
+                <tab heading="JSON">
+<pre>{
+    config_key: null
+}</pre>
+                </tab>
+                <tab heading="Yaml">
+                    <pre>config_key: null</pre>
+                </tab>
+                <tab heading="PHP">
+<pre>[
+    'config_key' => null
+]</pre>
+                </tab>
+            </tabset>
+        </tab>
+    </tabset>
+</div>
+<div class="modal-footer">
+    <a class="btn btn-primary" ng-click="close()">Close</a>
+</div>

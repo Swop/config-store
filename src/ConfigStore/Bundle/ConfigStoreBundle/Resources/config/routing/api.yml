@@ -1,0 +1,4 @@
+my_config:
+    type:        rest
+    resource:    ConfigStore\Bundle\ConfigStoreBundle\Controller\MyconfigController
+    name_prefix: api_myconfig_

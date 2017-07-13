@@ -1,0 +1,126 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+
+framework:
+    translator:      { fallback: "%locale%" }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
+twig:
+#    form:
+#        resources: ['bootstrap_3_horizontal_layout.html.twig']
+#        resources: ['ConfigStoreBundle:Form:bootstrap_3_horizontal_layout.html.twig']
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        entity_managers:
+            default:
+                auto_mapping: true
+                mappings:
+                    Model:
+                        type:    xml
+                        dir:     %kernel.root_dir%/../src/ConfigStore/Model/mapping
+                        alias:   Model
+                        prefix:  \ConfigStore\Model
+                        is_bundle: false
+                    ConfigStoreBundle: ~
+
+fos_rest:
+    view:
+        view_response_listener: force
+        force_redirects:
+          html: true
+        formats:
+            json: true
+            xml: true
+            rss: false
+            yaml: true
+            php: true
+        templating_formats:
+            html: true
+        mime_types:
+            json: ['application/json', 'application/x-json', 'application/vnd.example-com.foo+json']
+            rss: 'application/rss+xml'
+            jpg: 'image/jpeg'
+            png: 'image/png'
+            xml: 'application/xml'
+            yaml: ['text/x-yaml', 'text/yaml', 'application/x-yaml']
+            php: ['application/x-httpd-php', 'application/x-httpd-php-source', 'application/x-php', 'text/x-php']
+        serialize_null: true
+    body_listener:
+        decoders:
+            json: fos_rest.decoder.json
+        array_normalizer: fos_rest.normalizer.camel_keys
+    body_converter:
+        enabled: true
+        validate: true
+        validation_errors_argument: validationErrors
+    param_fetcher_listener: force
+    allowed_methods_listener: true
+    access_denied_listener:
+        json: true
+    format_listener:
+        rules:
+#            - { path: ^/api, priorities: [json, yaml, xml, php], fallback_format: ~, prefer_extension: false }
+            - { path: ^/myconfig, priorities: [json, yaml, xml, php], fallback_format: ~, prefer_extension: false }
+            - { path: ^/, priorities: [html, json], fallback_format: ~, prefer_extension: false }
+#            - { path: ^/admin, stop: true } # Only for fos-rest >= 1.5
+    routing_loader:
+        default_format: json
+        include_format: false
+    exception:
+        codes:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
+        messages:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+    service:
+        view_handler: config_store.view.handler
+    serializer:
+        version: 1.0
+        groups: []
+        serialize_null: true
+
+jms_serializer:
+    metadata:
+        directories:
+            Model:
+                namespace_prefix: "\\ConfigStore\\Model"
+                path: "%kernel.root_dir%/../src/ConfigStore/Model/serializer"
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            timestampable: true
+            sluggable: true
+
+jms_aop:
+    cache_dir: %kernel.cache_dir%/jms_aop

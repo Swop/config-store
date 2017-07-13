@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">Add new group</h4>
+</div>
+<form name="newGroupForm" ng-submit="add(newGroupForm.$valid)">
+    <div class="modal-body">
+        <div class="alert alert-danger" ng-if="error">
+            {{ error.error }}
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : newGroupForm.group_name.$invalid && !newGroupForm.group_name.$pristine }">
+            <label for="group_name" >Group name</label>
+            <input type="text" id="group_name" name="group_name" class="form-control" placeholder="Group name" ng-model="group.name" ng-required="true" ng-minlength="1" required autofocus />
+            <p ng-show="newGroupForm.group_name.$error.required && !newGroupForm.group_name.$pristine" class="help-block">The group name is required.</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-default" ng-click="cancel()">Cancel</a>
+        <input class="btn btn-primary" type="submit" ng-disabled="disableSubmit || newGroupForm.$invalid" value="Add" />
+    </div>
+</form>

@@ -1,0 +1,17 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">Preview config</h4>
+</div>
+<div class="modal-body">
+    <div class="alert alert-danger" ng-if="error">
+        {{ error.error }}
+    </div>
+    <tabset class="rendered-config-tabs">
+        <tab heading="{{ formatTitle }}" ng-repeat="(formatTitle, renderedConfig) in preview">
+            <pre>{{ renderedConfig }}</pre>
+        </tab>
+    </tabset>
+</div>
+<div class="modal-footer">
+    <a class="btn btn-primary" ng-click="close()">Close</a>
+</div>

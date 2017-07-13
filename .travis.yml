@@ -1,0 +1,41 @@
+sudo: false
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - hhvm
+
+matrix:
+  allow_failures:
+    - php: 7.0
+    - php: hhvm
+
+services:
+  - mysql
+
+before_script:
+  # install behat, mink etc
+  - composer self-update
+  - cp app/config/parameters_test_travis.yml app/config/parameters_test.yml
+  - composer install --no-interaction --prefer-dist --dev
+  - git submodule update --init --recursive
+  - mkdir -p app/cache app/logs
+  - chmod 777 app/cache app/logs
+  - app/console cache:warmup --env=test
+  - chmod -R 777 app/cache app/logs
+  # db setup
+  - app/console doctrine:database:create --env=test
+  - app/console doctrine:schema:create --env=test
+  # webserver setup
+  - bin/start_server &
+  - sleep 3
+script:
+  - bin/behat
+  - bin/phpunit --verbose --coverage-text
+
+cache:
+  directories:
+    - $HOME/.composer/cache

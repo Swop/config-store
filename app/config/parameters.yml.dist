@@ -1,0 +1,13 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     localhost
+    database_port:     ~
+    database_name:     config_store
+    database_user:     config_store
+    database_password: config_store
+
+    locale:            en
+    secret:            YouMustUseARandomStringHere
+
+    debug_toolbar:          true
+    debug_redirects:        false

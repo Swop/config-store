@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="config_store.view.handler.class">ConfigStore\Bundle\ConfigStoreBundle\View\ConfigViewHandler</parameter>
+        <parameter key="config_store.config_view.config_view_dumper.class">ConfigStore\ConfigView\ConfigViewDumper</parameter>
+        <parameter key="config_store.config_view.config_value_transformer.regex.class">ConfigStore\ConfigView\Transformer\RegexTransformer\RegexConfigValueTransformer</parameter>
+        <parameter key="config_store.config_view.config_value_transformer.parser.class">ConfigStore\ConfigView\Transformer\ParserTransformer\ParserConfigValueTransformer</parameter>
+        <parameter key="config_store.config_view.config_value_transformer.parser.parser.class">ConfigStore\ConfigView\Transformer\ParserTransformer\Parser\ConfigValueParser</parameter>
+        <parameter key="config_store.config_view.config_value_transformer.parser.lexer.class">ConfigStore\ConfigView\Transformer\ParserTransformer\Parser\ConfigValueLexer</parameter>
+    </parameters>
+    <services>
+        <service id="config_store.view.handler" parent="fos_rest.view_handler.default" class="%config_store.view.handler.class%">
+            <call method="setConfigViewDumper">
+                <argument type="service" id="config_store.config_view.config_view_dumper" />
+            </call>
+        </service>
+        <service id="config_store.config_view.config_view_dumper" class="%config_store.config_view.config_view_dumper.class%" />
+        <service id="config_store.config_view.config_value_transformer.regex" class="%config_store.config_view.config_value_transformer.regex.class%" />
+        <service id="config_store.config_view.config_value_transformer.parser" class="%config_store.config_view.config_value_transformer.parser.class%">
+            <argument type="service" id="config_store.config_view.config_value_transformer.parser.parser" />
+        </service>
+        <service id="config_store.config_view.config_value_transformer"
+                 alias="config_store.config_view.config_value_transformer.parser" />
+        <!--alias="config_store.config_view.config_value_transformer.regex" />-->
+
+        <service id="config_store.config_view.config_value_transformer.parser.parser" class="%config_store.config_view.config_value_transformer.parser.parser.class%">
+            <argument type="service" id="config_store.config_view.config_value_transformer.parser.lexer" />
+        </service>
+        <service id="config_store.config_view.config_value_transformer.parser.lexer" class="%config_store.config_view.config_value_transformer.parser.lexer.class%" />
+    </services>
+</container>

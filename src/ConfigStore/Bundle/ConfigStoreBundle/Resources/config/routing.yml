@@ -1,0 +1,12 @@
+security:
+    resource: "routing/security.yml"
+    prefix: /
+
+api:
+    type:     rest
+    resource: "routing/api.yml"
+    prefix: /
+
+admin:
+    resource: "routing/admin.yml"
+    prefix: /

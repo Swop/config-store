@@ -1,0 +1,15 @@
+user_login:
+    path: /login
+    defaults: { _controller: "ConfigStoreBundle:Admin/Security:login" }
+
+logout:
+    path: /logout
+
+login_check:
+    path: /login_check
+    methods: [POST]
+
+security_get_tokens:
+    path: /security-tokens/{namespace}
+    defaults: { _controller: "ConfigStoreBundle:Admin/Security:getSecurityTokens" }
+    methods: [GET]

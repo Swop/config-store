@@ -1,0 +1,44 @@
+<div ng-init="groupCtrl.init()" class="app-list-container" ng-cloak>
+    <div class="row app-list-header">
+
+        <!--
+        -----------------------
+            Main group nav bar
+        -----------------------
+        -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#" ng-if="group">{{ group.name }}</a>
+                    <a class="navbar-brand" href="#" ng-if="!group">Other apps</a>
+                </div>
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search apps..." size="50" ng-model="searchQuery.name">
+                    </div>
+                </form>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Add new config -->
+                    <li ng-if="group && groupCtrl.getAppsCount() > 0"><a ng-click="groupCtrl.addConfigToAllAppsModalOpen()" tooltip-placement="bottom" tooltip="Add new config"><span class="glyphicon glyphicon-plus"></span> Config</a></li>
+                    <!-- Add new app -->
+                    <li><a ng-click="groupCtrl.addNewAppModalOpen()" tooltip-placement="bottom" tooltip="Add new app"><span class="glyphicon glyphicon-plus"></span> App</a></li>
+                    <li class="dropdown" dropdown ng-if="group">
+                        <a href="#" class="dropdown-toggle" dropdown-toggle role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger"></span> <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <!-- Edit group -->
+                            <li><a ng-click="groupCtrl.editGroupModalOpen(group)"><span class="glyphicon glyphicon-pencil"></span> Edit group...</a></li>
+                            <li role="separator" class="divider"></li>
+                            <!-- Delete group -->
+                            <li><a ng-click="groupCtrl.deleteGroupModalOpen(group)"><span class="glyphicon glyphicon-trash"></span> Delete group</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <section id="app-list-container">
+        <!--This will be completer dynamicly by the GroupCtrl::init() function-->
+    </section>
+</div>

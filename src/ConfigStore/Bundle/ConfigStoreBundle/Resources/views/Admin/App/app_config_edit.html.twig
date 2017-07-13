@@ -1,0 +1,9 @@
+{% extends 'ConfigStoreBundle::base.html.twig' %}
+
+{% block body %}
+    {% if comparedAppSlug is not defined %}
+        <app-config-edit slug="{{ appSlug }}" />
+    {% else %}
+        <app-config-edit slug="{{ appSlug }}" compared-app-slug="{{ comparedAppSlug }}" />
+    {% endif %}
+{% endblock body %}

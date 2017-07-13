@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="config_store.manager.app.class">ConfigStore\Manager\AppManager</parameter>
+        <parameter key="config_store.manager.config.class">ConfigStore\Manager\ConfigManager</parameter>
+        <parameter key="config_store.manager.user.class">ConfigStore\Manager\UserManager</parameter>
+    </parameters>
+    <services>
+        <service id="config_store.manager.app" class="%config_store.manager.app.class%">
+            <argument type="service" id="config_store.repository.app" />
+            <argument type="service" id="config_store.repository.group" />
+            <argument type="service" id="config_store.persistence_manager.app" />
+            <argument type="service" id="config_store.manager.config" />
+            <call method="setApiKeyGenerator">
+                <argument type="service" id="config_store.api_key.generator" />
+            </call>
+        </service>
+
+        <service id="config_store.manager.config" class="%config_store.manager.config.class%">
+            <argument type="service" id="config_store.repository.config_item" />
+            <argument type="service" id="config_store.persistence_manager.config_item" />
+        </service>
+
+        <service id="config_store.manager.user" class="%config_store.manager.user.class%">
+            <argument type="service" id="config_store.repository.user" />
+            <argument type="service" id="config_store.persistence_manager.user" />
+            <argument type="service" id="security.encoder_factory" />
+        </service>
+    </services>
+</container>

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="config_store.events.app_persistence_subscriber.class">ConfigStore\Event\AppPersistenceSubscriber</parameter>
+    </parameters>
+    <services>
+        <service id="config_store.events.app_persistence_subscriber" class="%config_store.events.app_persistence_subscriber.class%">
+            <!--This kills kitten but container is injected here in order to avoid circular reference DIC-->
+            <argument type="service" id="service_container" />
+            <argument>config_store.api_key.generator</argument>
+            <tag name="doctrine.event_subscriber"/>
+        </service>
+    </services>
+</container>

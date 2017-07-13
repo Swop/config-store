@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="token_secured_action.aop.pointcut.token_secured.class">TokenSecuredAction\Aop\Pointcut\TokenSecuredPointcut</parameter>
+        <parameter key="token_secured_action.aop.interceptor.token_secured.class">TokenSecuredAction\Aop\Interceptor\TokenSecuredInterceptor</parameter>
+    </parameters>
+    <services>
+        <service id="token_secured_action.aop.pointcut.token_secured" class="%token_secured_action.aop.pointcut.token_secured.class%">
+            <argument type="service" id="annotation_reader" />
+            <tag name="jms_aop.pointcut" interceptor="token_secured_action.aop.interceptor.token_secured" />
+        </service>
+
+        <service id="token_secured_action.aop.interceptor.token_secured" class="%token_secured_action.aop.interceptor.token_secured.class%">
+            <argument type="service" id="annotation_reader" />
+            <argument type="service" id="token_secured_action.manager" />
+            <argument type="service" id="request_stack" />
+        </service>
+    </services>
+</container>

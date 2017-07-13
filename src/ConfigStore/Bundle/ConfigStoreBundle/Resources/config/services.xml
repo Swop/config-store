@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <imports>
+        <import resource="services/doctrine.xml"/>
+        <import resource="services/events.xml"/>
+        <import resource="services/managers.xml"/>
+        <import resource="services/view.xml"/>
+        <import resource="services/config_view_adapters.xml"/>
+        <import resource="services/config_view_transformers.xml"/>
+        <import resource="services/security.xml"/>
+        <import resource="services/controller.xml"/>
+        <import resource="services/forms.xml"/>
+        <import resource="services/api_key.xml"/>
+        <import resource="services/twig.xml"/>
+    </imports>
+</container>

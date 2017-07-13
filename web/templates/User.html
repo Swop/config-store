@@ -1,0 +1,24 @@
+<section class="user" ng-init="init()" ng-show="user">
+    <div class="well well-lg">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="media">
+                    <div class="media-left">
+                        <div class="media-object avatar avatar-unknown"></div>
+                    </div>
+                    <div class="media-body">
+                        <h2 class="media-heading">{{ user.name }} <span class="username">({{ user.username }})</span></h2>
+                        <div class="mail">
+                            {{ user.email }}
+                        </div>
+
+                        <div class="btn-group user-actions">
+                            <a ng-click="editUserModalOpen(user)" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                            <a ng-click="changePasswordModalOpen()" class="btn btn-default"><span class="glyphicon glyphicon-lock"></span> Change password</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">Add new user</h4>
+</div>
+<form name="newUserForm" ng-submit="add(newUserForm.$valid)">
+    <div class="modal-body">
+        <div class="alert alert-danger" ng-if="error">
+            {{ error.error }}
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : newUserForm.user_name.$invalid && !newUserForm.user_name.$pristine }">
+            <label for="user_name" >User complete name</label>
+            <input type="text" id="user_name" name="user_name" class="form-control" placeholder="User complete name" ng-model="user.name" ng-required="true" ng-minlength="1" required autofocus />
+            <p ng-show="newUserForm.user_name.$error.required && !newUserForm.user_name.$pristine" class="help-block">The user complete name is required.</p>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : newUserForm.user_username.$invalid && !newUserForm.user_username.$pristine }">
+            <label for="user_username" >Username</label>
+            <input type="text" id="user_username" name="user_username" class="form-control" placeholder="Username" ng-model="user.username" ng-required="true" ng-minlength="1" required />
+            <p ng-show="newUserForm.user_username.$error.required && !newUserForm.user_username.$pristine" class="help-block">The username is required.</p>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : newUserForm.user_email.$invalid && !newUserForm.user_email.$pristine }">
+            <label for="user_email" >User email</label>
+            <input type="email" id="user_email" name="user_email" class="form-control" placeholder="User email" ng-model="user.email" ng-required="true" ng-minlength="1" required />
+            <p ng-show="newUserForm.user_email.$error.required && !newUserForm.user_email.$pristine" class="help-block">The email is required.</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-default" ng-click="cancel()">Cancel</a>
+        <input class="btn btn-primary" type="submit" ng-disabled="disableSubmit || newUserForm.$invalid" value="Add" />
+    </div>
+</form>

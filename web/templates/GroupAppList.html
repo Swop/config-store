@@ -1,0 +1,238 @@
+<div class="row app-list-item-group status-{{status}}"  ng-init="groupAppListCtrl.init()" ng-show="filteredApps.length">
+
+    <!--
+    -----------------------
+        Apps main loop
+    -----------------------
+    -->
+    <div class="app-list-item" ng-class="hoveringclass" ng-repeat="app in filteredApps|filter:searchQuery" ng-mouseenter="hoveringclass = 'app-hover'" ng-mouseleave="hoveringclass = 'app-not-hover'">
+
+        <!--
+        -----------------------
+            App status left block
+        -----------------------
+        -->
+        <div class="app-block app-block-ref" ng-if="group && groupAppListCtrl.isRef(app)">
+            <!--<span class="app-block-info">REF</span>-->
+            <span class="app-block-info"></span>
+        </div><!--
+        --><a href class="app-block app-block-error" ng-click="groupAppListCtrl.toggleAppPanel(app, 'error')" ng-if="group && !groupAppListCtrl.isRef(app) && groupAppListCtrl.getMissing(app).length > 0">
+            <div class="app-block-info">
+                <span class="app-block-number">{{ groupAppListCtrl.getMissing(app).length }}</span>
+                <span>missing</span>
+            </div>
+        </a><!--
+        --><a href class="app-block app-block-warning" ng-click="groupAppListCtrl.toggleAppPanel(app, 'warning')" ng-if="group && !groupAppListCtrl.isRef(app) && groupAppListCtrl.getNew(app).length > 0">
+            <div class="app-block-info">
+                <span class="app-block-number">{{ groupAppListCtrl.getNew(app).length }}</span>
+                <span>new</span>
+            </div>
+        </a><!--
+        --><div class="app-block app-block-good" ng-if="group && !groupAppListCtrl.isRef(app) && groupAppListCtrl.getMissing(app).length === 0 && groupAppListCtrl.getNew(app).length === 0">
+            <!--<span class="app-block-info">in sync</span>-->
+            <span class="app-block-info"></span>
+        </div><!--
+        --><div class="app-block app-block-neutral" ng-if="!groupAppListCtrl.hasRef()">
+            <!--<span class="app-block-info">in sync</span>-->
+            <span class="app-block-info"></span>
+        </div>
+
+        <!--
+        -----------------------
+            App title
+        -----------------------
+        -->
+        <div class="app-block app-block-title">
+            {{ app.name }} <span ng-if="app.description && app.description.length > 0" class="app-desc-icon glyphicon glyphicon-info-sign" popover="{{ app.description }}" popover-trigger="mouseenter" popover-placement="bottom"></span>
+        </div>
+
+
+        <!--
+        -----------------------
+            App Action buttons
+        -----------------------
+        -->
+        <div class="app-block-actions pull-right">
+            <!--
+            -----------------------
+                Action: Compare to REF
+            -----------------------
+            -->
+            <a href="/apps/{{ app.slug }}/diff/{{ groupAppListCtrl.getRef().slug }}" class="app-block app-line-action-button" ng-if="!groupAppListCtrl.isRef(app) && groupAppListCtrl.hasRef()" tooltip-placement="bottom" tooltip="Compare with REF">
+                <span class="glyphicon glyphicon-transfer"> REF</span>
+            </a>
+
+            <!--
+            -----------------------
+                Action: Compare to...
+            -----------------------
+            -->
+            <div class="app-block-dropdown dropdown" dropdown ng-if="group">
+                <a href class="dropdown-toggle app-block app-line-action-button" dropdown-toggle>
+                    <span class="glyphicon glyphicon-transfer"></span><span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li class="dropdown-header"><span class="glyphicon glyphicon-transfer"></span> Compare with...</li>
+                    <li ng-repeat="compareApp in group.apps" ng-if="compareApp.id !== app.id">
+                        <a href="/apps/{{ app.slug }}/diff/{{ compareApp.slug }}">{{ compareApp.name }}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!--
+            -----------------------
+                Action: Edit
+            -----------------------
+            -->
+            <a href="/apps/{{ app.slug }}/edit" class="app-block app-line-action-button" tooltip-placement="bottom" tooltip="Edit">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+
+            <!--
+            -----------------------
+                Action: Preview
+            -----------------------
+            -->
+            <a href ng-click="groupAppListCtrl.openPreviewModal(app)" class="app-block app-line-action-button" tooltip-placement="bottom" tooltip="Preview">
+                <span class="glyphicon glyphicon-eye-open"></span>
+            </a>
+
+            <!--
+            -----------------------
+                Action: Other...
+            -----------------------
+            -->
+            <div class="app-block-dropdown dropdown" dropdown>
+                <a href class="dropdown-toggle app-block app-line-action-button" dropdown-toggle>
+                    <span class="glyphicon glyphicon-cog"></span><span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <!-- ******** Duplicate -->
+                    <li><a href ng-click="groupAppListCtrl.duplicateAppModalOpen(app)"><span class="glyphicon glyphicon-repeat"></span> Duplicate...</a></li>
+
+                    <!-- ******** Set REF status -->
+                    <li ng-if="group && !groupAppListCtrl.isRef(app)"><a href ng-click="groupAppListCtrl.considerAsRef(app)">Consider as <span class="label label-info">REF</span></a></li>
+                    <li ng-if="groupAppListCtrl.isRef(app)"><a href ng-click="groupAppListCtrl.dropRefStatus()">Drop <span class="label label-info">REF</span> status</a></li>
+
+                    <!-- ******** Manage API keys -->
+                    <li><a href ng-click="groupAppListCtrl.apiKeyModalOpen(app)"><span class="glyphicon glyphicon-lock"></span> Manage API key...</a></li>
+
+                    <!-- ******** Edit app properties -->
+                    <li><a href ng-click="groupAppListCtrl.editAppModalOpen(app, group)"><span class="glyphicon glyphicon-pencil"></span> Edit app properties...</a></li>
+
+                    <li class="divider"></li>
+
+                    <!-- ******** Delete app -->
+                    <li><a href ng-click="groupAppListCtrl.deleteAppModalOpen(app)"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!--
+        -----------------------
+            Panel: Missing
+        -----------------------
+        -->
+        <div class="container container-fluid app-panel app-panel-error" ng-if="groupAppListCtrl.hasRef()" ng-show="groupAppListCtrl.isPanelOpened(app.id, 'error')">
+            <div class="row app-panel-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="compare-app-dropdown-nav navbar navbar-default">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-4 col-md-offset-8"role="toolbar">
+                                        Compare with
+                                        <span class="dropdown" dropdown>
+                                            <button class="btn btn-default dropdown-toggle" dropdown-toggle aria-haspopup="true" aria-expanded="true">
+                                                <span class="label label-info" ng-if="selectedComparedApp.ref">REF</span> {{ selectedComparedApp.name }}
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="compareApp in group.apps" ng-if="compareApp.id !== app.id">
+                                                    <a href ng-click="groupAppListCtrl.selectComparedApp(compareApp)">
+                                                        <span ng-if="compareApp.id == selectedComparedApp.id" class="glyphicon glyphicon-ok space-right"></span>
+                                                        <span ng-if="compareApp.id != selectedComparedApp.id" class="glyphicon glyphicon-none space-right"></span>
+                                                        <span class="label label-info" ng-if="compareApp.ref">REF</span> {{ compareApp.name }}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="container container-fluid" id="app-panel-error-config-{{app.id}}">
+                            <!--<config-items-edit app="app" compared-app="selectedComparedApp" group="group" display-search="false" filters="{query: '', states: ['missing_left']}" action-bar="light" />-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--
+        -----------------------
+            Panel: New
+        -----------------------
+        -->
+        <div class="container container-fluid app-panel app-panel-warning" ng-if="groupAppListCtrl.hasRef()" ng-show="groupAppListCtrl.isPanelOpened(app.id, 'warning')">
+            <div class="row app-panel-body">
+                <div class="container container-fluid" id="app-panel-warning-config-{{app.id}}">
+                    <!--<config-items-edit app="app" compared-app="groupAppListCtrl.getRef()" group="group" display-search="false" filters="{query: '', states: ['missing_right']}" action-bar="light" />-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-hide="filteredApps.length">No apps found</div>
+
+    <!--
+    -----------------------
+        Template: Delete app
+    -----------------------
+    -->
+    <script type="text/ng-template" id="deleteApp.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Delete app <code>{{ app.name }}</code></h4>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-danger" ng-if="error">
+                {{ error.error }}
+            </div>
+            <p>Do you really want to delete <code>{{ app.name }}</code> app ? This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-default" ng-click="cancel()">Cancel</a>
+            <button class="btn btn-primary" ng-disabled="disableSubmit" ng-click="delete()">Delete</button>
+        </div>
+    </script>
+
+    <!--
+    -----------------------
+        Template: Manage Api key
+    -----------------------
+    -->
+    <script type="text/ng-template" id="apiKey.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">API Key: <code>{{ app.name }}</code></h4>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-danger" ng-if="error">
+                {{ error.error }}
+            </div>
+            <div class="alert alert-success" ng-if="revokationSuccess">
+                The API key was successfully regenerated !
+            </div>
+            <samp>{{ app.access_key }}</samp>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" ng-disabled="disableSubmit" ng-click="revoke()">Revoke API Key</button>
+            <a class="btn btn-primary" ng-click="close()">Close</a>
+        </div>
+    </script>
+</div>

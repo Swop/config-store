@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">Delete group <code>{{ group.name }}</code></h4>
+</div>
+<div class="modal-body">
+    <div class="alert alert-danger" ng-if="error">
+        {{ error.error }}
+    </div>
+    <p>Do you really want to delete <code>{{ group.name }}</code> group ? This action cannot be undone.</p>
+
+    <div class="alert alert-warning">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" id="delete_group_apps" name="delete_group_apps" ng-model="deleteGroupApps" /> Also delete apps attached to this group
+            </label>
+        </div>
+    </div>
+    <span class="help-block">If you choose NOT to delete the attached apps, you can find them later in the "Other apps" section.</span>
+</div>
+<div class="modal-footer">
+    <a class="btn btn-default" ng-click="cancel()">Cancel</a>
+    <button class="btn btn-primary" ng-disabled="disableSubmit" ng-click="delete()">Delete</button>
+</div>

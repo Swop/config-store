@@ -1,0 +1,47 @@
+ConfigStore\Model\App:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length: { min: 1, max: 255 }
+        description:
+            - Length: { max: 255 }
+        accessKey:
+            - NotBlank: { groups: [app_edition] }
+            - Length: { max: 255 }
+        group:
+            - Valid: ~
+        configItems:
+            - Valid: ~
+
+ConfigStore\Model\AppGroup:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length: { min: 1, max: 255 }
+        reference:
+            - Valid: ~
+        apps:
+            - Valid: ~
+
+ConfigStore\Model\ConfigItem:
+    properties:
+        key:
+            - NotBlank: ~
+            - Length: { min: 1, max: 255 }
+        value:
+            - Length: { max: 255 }
+        app:
+            - NotBlank: { groups: [single_app_edition] }
+            - Valid: ~
+
+ConfigStore\Model\User:
+    properties:
+        username:
+            - NotBlank: ~
+            - Length: { min: 1, max: 255 }
+        name:
+            - NotBlank: ~
+            - Length: { max: 255 }
+        email:
+            - NotBlank: ~
+            - Email: ~

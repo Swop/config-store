@@ -1,0 +1,154 @@
+.config-items-edit-search {
+    width: 100%;
+    input {
+        width: 100%;
+        font-size: large;
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        background-color: white;
+    }
+
+    &.sticky {
+        z-index: 999;
+        padding: 0 10px;
+        box-shadow: 0 2px 10px #dddddd;
+        background-color: white;
+
+        input {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.config-items-edit-container {
+    background-color: @config-items-edit-app-bg-color;
+
+    &.action-bar-full {
+        margin-bottom: 64px !important;
+    }
+
+    &.config-items-edit-search-padding {
+        padding-top:80px;
+    }
+
+    .config-items-edit-col {
+        line-height: 40px;
+    }
+    .row {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .compared-app {
+        background-color: darken(@config-items-edit-app-bg-color, 5%);
+        //box-shadow: inset 5px 0 8px #dddddd;
+        border-left: 1px solid darken(@config-items-edit-app-bg-color, 25%);
+    }
+
+    .missing-item {
+        color: lighten(@text-color, 40%);
+    }
+
+    .config-items-edit-app-header {
+        text-align: center;
+        padding: 20px;
+
+        h2 {
+            font-weight: bold;
+            font-size: medium;
+            margin: 0 0 10px 0;
+        }
+
+        .config-items-edit-app-info {
+            font-weight: 300;
+        }
+    }
+
+    .config-items-edit-app-config-key {
+        font-size: medium;
+        font-weight: 200;
+
+        line-height: 30px;
+    }
+
+    .config-items-edit-app-config-value {
+        padding-bottom: 15px;
+
+        .config-items-edit-app-config-value-col-editing {
+            padding-left: 40px;
+            input {
+                height: 40px;
+            }
+        }
+
+        .config-items-edit-app-config-value-col-actions {
+            visibility: hidden;
+            text-align: center;
+
+            a {
+                margin: 0 13px;
+            }
+        }
+
+        &.compared-app {
+            .config-items-edit-app-config-value-compared-col-actions {
+                text-align: center;
+                visibility: hidden;
+            }
+        }
+    }
+
+    .config-items-edit-status {
+        position: absolute;
+        left: 0;
+        top:0;
+        width: 10px;
+        height:40px;
+
+        &.config-items-edit-status-error {
+            background-color: @app-diff-status-error;
+        }
+
+        &.config-items-edit-status-warning {
+            background-color: @app-diff-status-warning;
+        }
+
+        &.config-items-edit-status-good {
+            background-color: @app-diff-status-good;
+        }
+
+        &.config-items-edit-status-neutral {
+            background-color: @app-diff-status-neutral;
+        }
+    }
+
+    .config-hover {
+        .config-items-edit-app-config-value-col-actions {
+            visibility: visible !important;
+        }
+
+        .config-items-edit-app-config-value-compared-col-actions {
+            visibility: visible !important;
+        }
+    }
+}
+
+.config-items-edit-toolbar-nav {
+    margin-bottom: 0 !important;
+
+    .config-items-edit-toolbar-main {
+        padding: @navbar-padding-vertical @navbar-padding-horizontal;
+
+        .btn-link, .btn-link:hover, .btn-link:visited {
+            text-decoration: none;
+        }
+
+        .btn-link.btn-main {
+            color: lighten(@link-color, 20%);
+
+            &:hover {
+                color: @link-color;
+            }
+        }
+    }
+}

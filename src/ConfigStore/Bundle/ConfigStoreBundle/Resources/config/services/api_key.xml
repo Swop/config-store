@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="config_store.api_key.random_api_key_generator.class">ConfigStore\ApiKey\RandomApiKeyGenerator</parameter>
+        <parameter key="config_store.api_key.unique_api_key_generator_decorator.class">ConfigStore\ApiKey\UniqueApiKeyGeneratorDecorator</parameter>
+        <parameter key="config_store.api_key.generator.class">ConfigStore\ApiKey\ApiKeyGenerator</parameter>
+    </parameters>
+    <services>
+        <service id="config_store.api_key.unique_api_key_generator_decorator" class="%config_store.api_key.unique_api_key_generator_decorator.class%">
+            <argument type="service" id="config_store.manager.app" />
+            <argument type="service" id="config_store.api_key.random_api_key_generator" />
+        </service>
+
+        <service id="config_store.api_key.random_api_key_generator" class="%config_store.api_key.random_api_key_generator.class%">
+            <argument type="service" id="security.secure_random" />
+        </service>
+
+        <service id="config_store.api_key.generator" class="%config_store.api_key.generator.class%"
+                alias="config_store.api_key.unique_api_key_generator_decorator">
+        </service>
+    </services>
+</container>

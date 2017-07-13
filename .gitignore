@@ -1,0 +1,41 @@
+# Configs
+/app/config/parameters.yml
+/app/config/parameters_test.yml
+
+# Caches
+/app/bootstrap.php.cache
+/app/cache/*
+!app/cache/.gitkeep
+
+# Data
+/app/data/*
+!app/data/.gitkeep
+
+# Logs
+/app/logs/*
+!app/logs/.gitkeep
+/server.log
+
+# Temp
+/build/
+
+# Assets
+/web/bundles/
+/web/css/
+/web/fonts/
+/web/js/
+
+# Dependencies
+/vendor/
+/bin/*
+/components/
+/node_modules/
+!/bin/start_server
+/composer.phar
+
+# Vagrant
+/.vagrant/
+
+# Capistrano
+/.capistrano/
+/deployment/credentials.rb

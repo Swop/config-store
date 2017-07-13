@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="config_store.twig.extension.diff_with_reference.class">ConfigStore\Bundle\ConfigStoreBundle\Twig\DiffWithReferenceExtension</parameter>
+    </parameters>
+    <services>
+        <service id="config_store.twig.extension.diff_with_reference" class="%config_store.twig.extension.diff_with_reference.class%">
+            <argument type="service" id="config_store.manager.app" />
+            <tag name="twig.extension" />
+        </service>
+    </services>
+</container>

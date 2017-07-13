@@ -1,0 +1,17 @@
+ConfigStore\Model\ConfigItem:
+    exclusion_policy: ALL
+    access_type: public_method
+    read_only: true
+    properties:
+        app:
+            expose: true
+            type: ConfigStore\Model\App
+            groups: [ConfigItem]
+        key:
+            expose: true
+            type: string
+            groups: [ConfigItem, App, AppGroup, Diff]
+        value:
+            expose: true
+            type: string
+            groups: [ConfigItem, App, AppGroup, Diff]

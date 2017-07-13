@@ -1,0 +1,142 @@
+<div class="row" ng-cloak ng-init="configItemsEditCtrl.init()">
+    <!--
+    -----------------------
+        Search input
+    -----------------------
+    -->
+    <div class="config-items-edit-search" ng-show="displaySearch">
+        <input type="text" ng-model="filters.query" placeholder="Search in config keys or values..." />
+    </div>
+
+    <div class="config-items-edit-container container container-fluid" ng-class="{'action-bar-full': actionBar == 'full'}">
+        <form data-role="save-config-form" data-app-slug="{{ application.slug }}">
+
+            <!--
+            -----------------------
+                Diff header
+            -----------------------
+            -->
+            <div class="row">
+                <div class="config-items-edit-app-header" ng-class="{'col-md-8': viewType == 'diff', 'col-md-12': viewType != 'diff'}">
+                    <h2>{{ application.name }}<span ng-show="application.ref"> <span class="label label-info">REF</span></span></h2>
+                    <div class="config-items-edit-app-info">({{ configItemsEditCtrl.objectSize(application.config_items) }} configs)</div>
+                </div>
+                <div class="col-md-4 config-items-edit-app-header compared-app" ng-show="viewType == 'diff'">
+                    <h2>{{ otherApplication.name }}<span ng-show="otherApplication.ref"> <span class="label label-info">REF</span></span></h2>
+                    <div class="config-items-edit-app-info">({{ configItemsEditCtrl.objectSize(otherApplication.config_items) }} configs)</div>
+                </div>
+            </div>
+
+            <!--
+            -----------------------
+                Config items main loop
+            -----------------------
+            -->
+            <div ng-repeat="(key, state) in states" ng-controller="DiffEntryCtrl" ng-hide="isExcludedByFilter" ng-class="hoveringclass" ng-mouseenter="hoveringclass = 'config-hover'" ng-mouseleave="hoveringclass = 'config-not-hover'">
+                <!--
+                    Config key
+                -->
+                <div class="row">
+                    <div class="config-items-edit-col config-items-edit-app-config-key" ng-class="{'missing-item': state == 'missing_left', 'col-md-8': viewType == 'diff', 'col-md-12': viewType != 'diff'}">
+                        {{ key }}
+                        <!--<code>{{ key }}</code>-->
+                        <!--<input ng-if="state != 'missing_left'" type="hidden" name="appConfig[configItems][{{ configItemsEditCtrl.getConfig(application.config_items, key).index }}][key]" value="{{ key }}" />-->
+                    </div>
+                    <div class="col-md-4 config-items-edit-col config-items-edit-app-config-key compared-app" ng-show="viewType == 'diff'">
+                        &nbsp;
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!--
+                    -----------------------
+                        Config value left
+                    -----------------------
+                    -->
+                    <div class="config-items-edit-col config-items-edit-app-config-value" ng-class="{'missing-item': state == 'missing_left', 'col-md-8': viewType == 'diff', 'col-md-12': viewType != 'diff'}">
+                        <div class="row">
+                            <div class="col-md-10 config-items-edit-app-config-value-col-editing">
+                                <input ng-show="state != 'missing_left'" ng-change="configItemsEditCtrl.updateStates()" type="text" class="form-control" placeholder="Config value" name="appConfig[configItems][{{ configItemsEditCtrl.getConfig(application.config_items, key).index }}][value]" ng-model="application.config_items[key].value">
+                                <div ng-show="state == 'missing_left'">Missing</div>
+                            </div>
+                            <div class="col-md-2 config-items-edit-app-config-value-col-actions">
+                                <a href ng-show="state != 'missing_left'" ng-click="configItemsEditCtrl.delete(key)" tooltip-placement="bottom" tooltip="Delete config"><span class="glyphicon glyphicon-remove" ></span></a>
+                                <a href ng-show="state == 'missing_right'" ng-click="configItemsEditCtrl.dispatchConfigModalOpen(configItemsEditCtrl.getConfig(application.config_items, key))" tooltip-placement="bottom" tooltip="Dispatch config"><span class="glyphicon glyphicon-share-alt" ></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    -----------------------
+                        Config value right
+                    -----------------------
+                    -->
+                    <div class="col-md-4 config-items-edit-col config-items-edit-app-config-value compared-app" ng-show="viewType == 'diff'" ng-class="{'missing-item': state == 'missing_right'}">
+                        <div class="row">
+                            <div class="config-items-edit-status" ng-class="{'config-items-edit-status-error': state == 'missing_left' && otherApplication.ref, 'config-items-edit-status-warning': (state == 'missing_left' && !otherApplication.ref) || (state == 'missing_right')}"></div>
+                            <div class="col-md-3 config-items-edit-app-config-value-compared-col-actions">
+                                <a ng-show="state != 'missing_right'" ng-click="configItemsEditCtrl.copyRightToLeft(key)" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="Copy right to left"><span class="glyphicon glyphicon-arrow-left"></span> Copy</a>
+                            </div>
+
+                            <div class="col-md-9 config-items-edit-app-config-value-compared-col-value">
+                                <div ng-show="state == 'missing_right'">Missing</div>
+                                <div ng-show="state != 'missing_right'"><code>{{ configItemsEditCtrl.getConfig(otherApplication.config_items, key).value }}</code></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--
+    -----------------------
+        Main toolbar
+    -----------------------
+    -->
+    <div class="navbar navbar-default config-items-edit-toolbar-nav" ng-class="{'navbar-fixed-bottom': actionBar == 'full'}" ng-show="actionBar !== 'none'">
+        <div class="container">
+            <div class="btn-toolbar config-items-edit-toolbar-main"role="toolbar">
+                <div class="btn-group" ng-show="actionBar == 'full'">
+                    <a class="btn btn-default btn-link" href="{{ configItemsEditCtrl.getBackLinkUrl() }}"><span class="glyphicon glyphicon-arrow-left"></span> Back to app list</a>
+                </div>
+
+                <div class="btn-group pull-right">
+                    <a href class="btn btn-link" ng-click="configItemsEditCtrl.openHelpTutorial()"><span class="glyphicon glyphicon-question-sign"></span> Help</a>
+                    <a href class="btn btn-link" ng-show="actionBar == 'full'" ng-click="configItemsEditCtrl.addConfigModalOpen()"><span class="glyphicon glyphicon-plus"></span> Add new config key</a>
+                    <button ng-click="configItemsEditCtrl.saveConfig()" class="btn btn-link" ng-class="{'btn-main': actionBar == 'light'}"><span class="glyphicon glyphicon-ok"></span> Save</button>
+                    <button ng-click="configItemsEditCtrl.saveConfigAndClose()" ng-show="actionBar == 'full'" class="btn btn-link btn-main"><span class="glyphicon glyphicon-ok"></span> Save & close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    -----------------------
+        Template: Add config modal
+    -----------------------
+    -->
+    <script type="text/ng-template" id="addConfig.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Add new config</h4>
+        </div>
+        <form name="newConfigForm" ng-submit="add(newConfigForm.$valid)">
+            <div class="modal-body">
+                <div class="form-group" ng-class="{ 'has-error' : newConfigForm.new_config_key.$invalid && !newConfigForm.new_config_key.$pristine }">
+                    <label for="new_config_key" >Config key</label>
+                    <input type="text" id="new_config_key" name="new_config_key" class="form-control" placeholder="Config key" ng-model="newConfig.key" ng-required="true" ng-minlength="1" required ui-validate="{ exists: 'checkExistingConfigKey($value)' }" autofocus />
+                    <p ng-show="newConfigForm.new_config_key.$error.required && !newConfigForm.new_config_key.$pristine" class="help-block">The config key is required.</p>
+                    <p ng-show='newConfigForm.new_config_key.$error.exists && !newConfigForm.new_config_key.$pristine' class="help-block">This config key is already taken</p>
+                </div>
+                <div class="form-group">
+                    <label for="new_config_value" >Config value</label>
+                    <input type="text" id="new_config_value" name="new_config_value" class="form-control" placeholder="Config value" ng-model="newConfig.value" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-default" ng-click="cancel()">Cancel</a>
+                <input class="btn btn-primary" type="submit" ng-disabled="disableSubmit || newConfigForm.$invalid" value="Add" />
+            </div>
+        </form>
+    </script>
+</div>

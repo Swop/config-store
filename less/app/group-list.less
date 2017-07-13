@@ -1,0 +1,84 @@
+.group-list {
+    h1 {
+        font-size: medium;
+        text-transform: uppercase;
+        color: gray;
+        font-weight: lighter;
+    }
+
+    h2 {
+        font-size: medium;
+        margin: 10px 0 10px 0;
+    }
+
+    .group {
+        display: inline-block;
+        vertical-align: top;
+        width: 250px;
+        padding: 10px;
+        border: 1px solid @gray-lighter;
+        margin: 20px;
+        color: @text-color;
+        text-align: center;
+
+        &:hover {
+            box-shadow: 0 5px 5px @gray-lighter;
+            border: 1px solid darken(@gray-lighter, 10%);
+            text-decoration: none;
+        }
+
+        &.group-good {
+            box-shadow: inset 0 7px 0 0 @app-list-status-good;
+            &:hover {
+                box-shadow: 0 5px 5px @gray-lighter, inset 0 7px 0 0 @app-list-status-good;
+            }
+        }
+
+        &.group-warning {
+            box-shadow: inset 0 7px 0 0 @app-list-status-warning;
+            &:hover {
+                box-shadow: 0 5px 5px @gray-lighter, inset 0 7px 0 0 @app-list-status-warning;
+            }
+        }
+
+        &.group-error {
+            box-shadow: inset 0 7px 0 0 @app-list-status-error;
+            &:hover {
+                box-shadow: 0 5px 5px @gray-lighter, inset 0 7px 0 0 @app-list-status-error;
+            }
+        }
+
+        &.group-neutral {
+            box-shadow: inset 0 7px 0 0 @app-list-status-neutral;
+            &:hover {
+                box-shadow: 0 5px 5px @gray-lighter, inset 0 7px 0 0 @app-list-status-neutral;
+            }
+        }
+
+        .extra {
+            color: @text-muted;
+        }
+        .status {
+            border-top: 1px solid @gray-lighter;
+            padding: 20px 10px 10px;
+            margin-top: 20px;
+
+            .status-item {
+                display: inline-block;
+                margin-right: 7px;
+            }
+        }
+
+        &.add-new-app-button {
+            color: @text-muted;
+            text-transform: uppercase;
+            font-weight: normal;
+
+            &:hover {
+                color: white;
+                background-color: @brand-primary;
+            }
+        }
+    }
+}
+

@@ -1,0 +1,2 @@
+config_store_bundle:
+    resource: "@ConfigStoreBundle/Resources/config/routing.yml"

@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="config_store.security.authenticator.api_key.class">ConfigStore\Bundle\ConfigStoreBundle\Security\Authenticator\ApiKeyAuthenticator</parameter>
+        <parameter key="config_store.security.user.api_key_based_app_provider.class">ConfigStore\Bundle\ConfigStoreBundle\Security\User\ApiKeyBasedAppProvider</parameter>
+        <parameter key="config_store.security.user.user_provider.class">ConfigStore\Bundle\ConfigStoreBundle\Security\User\UserProvider</parameter>
+    </parameters>
+    <services>
+        <service id="config_store.security.authenticator.api_key" class="%config_store.security.authenticator.api_key.class%" />
+
+        <service id="config_store.security.user.api_key_based_app_provider" class="%config_store.security.user.api_key_based_app_provider.class%">
+            <argument type="service" id="config_store.manager.app" />
+        </service>
+
+        <service id="config_store.security.user.user_provider" class="%config_store.security.user.user_provider.class%">
+            <argument type="service" id="config_store.manager.user" />
+        </service>
+
+        <service id="config_store.security.authorization.user_voter"
+                 class="ConfigStore\Bundle\ConfigStoreBundle\Security\Authorization\Voter\UserVoter"
+                 public="false">
+            <tag name="security.voter" />
+        </service>
+    </services>
+</container>

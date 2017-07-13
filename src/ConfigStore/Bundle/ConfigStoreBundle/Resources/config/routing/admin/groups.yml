@@ -1,0 +1,65 @@
+admin_group_list_ajax:
+    path: /groups/ajax
+    defaults: { _controller: "config_store.controller.admin.group:listAjaxAction" }
+    requirements:
+        _method:  GET
+
+admin_group_list:
+    path: /groups
+    defaults: { _controller: "config_store.controller.admin.group:listAction" }
+    requirements:
+        _method:  GET
+
+admin_group_create:
+    path: /groups
+    defaults: { _controller: "config_store.controller.admin.group:createAction" }
+    requirements:
+        _method:  POST
+
+admin_group_get:
+    path: /groups/{groupId}
+    defaults: { _controller: "config_store.controller.admin.group:getAction" }
+    requirements:
+        _method:  GET
+
+admin_group_update:
+    path: /groups/{groupId}
+    defaults: { _controller: "config_store.controller.admin.group:updateAction" }
+    requirements:
+        _method:  PUT
+
+admin_group_delete:
+    path: /groups/{groupId}
+    defaults: { _controller: "config_store.controller.admin.group:deleteAction" }
+    requirements:
+        _method:  DELETE
+
+admin_group_update_ref:
+    path: /groups/{groupId}/ref
+    defaults: { _controller: "config_store.controller.admin.group:updateRefAction" }
+    requirements:
+        _method: PUT
+
+admin_group_drop_ref:
+    path: /groups/{groupId}/ref
+    defaults: { _controller: "config_store.controller.admin.group:dropRefAction" }
+    requirements:
+        _method:  DELETE
+
+admin_group_list_apps:
+    path: /groups/{groupId}/apps
+    defaults: { _controller: "config_store.controller.admin.group:listOneGroupAction" }
+    requirements:
+        _method:  GET
+
+admin_group_dispatch_config:
+    path: /groups/{groupId}/dispatch-config
+    defaults: { _controller: "config_store.controller.admin.group:dispatchConfigAction" }
+    requirements:
+        _method:  POST
+
+admin_group_get_competitor_config_items:
+    path: /groups/{groupId}/competitors/{configItemKey}
+    defaults: { _controller: "config_store.controller.admin.group:getCompetitorConfigItemsAction" }
+    requirements:
+        _method:  GET

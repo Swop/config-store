@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="ConfigStore">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Config Store{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/config-store.css') }}">
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=2" />
+</head>
+<body class="{% block bodyClass %}{% endblock %}" ng-controller="MainCtrl as mainCtrl">
+
+<div class="spinner-container" ng-if="showSpinner">
+</div>
+<div class="spinner" ng-if="showSpinner">
+    <div class="double-bounce1"></div>
+    <div class="double-bounce2"></div>
+</div>
+
+{% block mainMenu %}
+    {% render(controller('ConfigStoreBundle:Admin/MainMenu:renderMainMenu')) %}
+{% endblock %}
+
+<div class="container container-fluid">
+    {% block body %}
+    {% endblock %}
+</div>
+
+{% verbatim %}
+<div ng-controller="AlertsCtrl" class="alerts-container">
+   <alert ng-repeat="alert in alerts|orderBy: -id" type="{{alert.type}}" close="closeAlert(alert.id)">{{alert.msg}}</alert>
+</div>
+{% endverbatim %}
+
+<script src="{{ asset('js/vendors.min.js') }}"></script>
+<script src="{{ asset('js/config-store.min.js') }}"></script>
+{% block javascripts %}{% endblock %}
+{% block templates %}{% endblock %}
+</body>
+</html>

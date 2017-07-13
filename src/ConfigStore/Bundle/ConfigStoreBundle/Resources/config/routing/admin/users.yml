@@ -1,0 +1,71 @@
+admin_user_list_web:
+    path: /users/list
+    defaults: { _controller: "config_store.controller.admin.user:listWebAction" }
+    requirements:
+        _method:  GET
+
+admin_user_me:
+    path: /me
+    defaults: { _controller: "config_store.controller.admin.user:getMeAction" }
+    requirements:
+        _method:  GET
+
+admin_user_list:
+    path: /users
+    defaults: { _controller: "config_store.controller.admin.user:listAction" }
+    requirements:
+        _method:  GET
+
+admin_user_create:
+    path: /users
+    defaults: { _controller: "config_store.controller.admin.user:createAction" }
+    requirements:
+        _method:  POST
+
+admin_user_view:
+    path: /users/{userSlug}
+    defaults: { _controller: "config_store.controller.admin.user:viewAction" }
+    requirements:
+        _method:  GET
+
+admin_user_view_web:
+    path: /users/{userSlug}/view
+    defaults: { _controller: "config_store.controller.admin.user:viewWebAction" }
+    requirements:
+        _method:  GET
+
+admin_user_update:
+    path: /users/{userSlug}
+    defaults: { _controller: "config_store.controller.admin.user:updateAction" }
+    requirements:
+        _method:  PUT
+
+admin_user_activate:
+    path: /users/{userSlug}/activate
+    defaults: { _controller: "config_store.controller.admin.user:activateAction" }
+    requirements:
+        _method:  POST
+
+admin_user_deactivate:
+    path: /users/{userSlug}/deactivate
+    defaults: { _controller: "config_store.controller.admin.user:deactivateAction" }
+    requirements:
+        _method:  POST
+
+admin_user_promote:
+    path: /users/{userSlug}/promote
+    defaults: { _controller: "config_store.controller.admin.user:promoteAction" }
+    requirements:
+        _method:  POST
+
+admin_user_demote:
+    path: /users/{userSlug}/demote
+    defaults: { _controller: "config_store.controller.admin.user:demoteAction" }
+    requirements:
+        _method:  POST
+
+admin_user_change_password:
+    path: /users/{userSlug}/password
+    defaults: { _controller: "config_store.controller.admin.user:changePasswordAction" }
+    requirements:
+        _method:  PUT

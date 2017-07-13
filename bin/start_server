@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+
+if [ -z "$TRAVIS_BUILD_DIR" ]; then
+    TRAVIS_BUILD_DIR=$(pwd)
+fi
+
+touch "$TRAVIS_BUILD_DIR/server.log"
+
+echo "    Starting the PHP builtin webserver"
+php $TRAVIS_BUILD_DIR/app/console server:run 127.0.0.1:8081 --env=test > /dev/null 2> "$TRAVIS_BUILD_DIR/server.log"

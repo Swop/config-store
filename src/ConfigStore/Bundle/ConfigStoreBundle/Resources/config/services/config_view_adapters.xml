@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="config_store.config_view.config_view_dumper.adapter.base.class">ConfigStore\ConfigView\AbstractConfigViewAdapter</parameter>
+
+        <parameter key="config_store.config_view.config_view_dumper.adapter.json.class">ConfigStore\ConfigView\Adapter\JsonConfigView</parameter>
+        <parameter key="config_store.config_view.config_view_dumper.adapter.php.class">ConfigStore\ConfigView\Adapter\PhpConfigView</parameter>
+        <parameter key="config_store.config_view.config_view_dumper.adapter.yaml.class">ConfigStore\ConfigView\Adapter\YamlConfigView</parameter>
+    </parameters>
+    <services>
+        <service id="config_store.config_view.config_view_dumper.adapter.base" class="%config_store.config_view.config_view_dumper.adapter.base.class%"
+                abstract="true">
+            <call method="setConfigValueTransformer">
+                <argument type="service" id="config_store.config_view.config_value_transformer" />
+            </call>
+        </service>
+
+        <service id="config_store.config_view.config_view_dumper.adapter.json" class="%config_store.config_view.config_view_dumper.adapter.json.class%"
+                parent="config_store.config_view.config_view_dumper.adapter.base">
+            <argument type="service" id="jms_serializer" />
+            <tag name="config_store.config_view_dumper.adapter" />
+        </service>
+        <service id="config_store.config_view.config_view_dumper.adapter.php" class="%config_store.config_view.config_view_dumper.adapter.php.class%"
+                 parent="config_store.config_view.config_view_dumper.adapter.base">
+            <tag name="config_store.config_view_dumper.adapter" />
+        </service>
+        <service id="config_store.config_view.config_view_dumper.adapter.yaml" class="%config_store.config_view.config_view_dumper.adapter.yaml.class%"
+                 parent="config_store.config_view.config_view_dumper.adapter.base">
+            <argument type="service" id="jms_serializer" />
+            <tag name="config_store.config_view_dumper.adapter" />
+        </service>
+    </services>
+</container>

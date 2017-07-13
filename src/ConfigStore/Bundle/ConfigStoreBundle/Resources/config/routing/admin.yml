@@ -1,0 +1,18 @@
+admin_homepage:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: admin_group_list
+        permanent: false
+
+admin_apps:
+    prefix: /
+    resource: 'admin/apps.yml'
+
+admin_groups:
+    prefix: /
+    resource: 'admin/groups.yml'
+
+admin_users:
+    prefix: /
+    resource: 'admin/users.yml'

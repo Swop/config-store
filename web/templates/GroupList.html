@@ -1,0 +1,25 @@
+<section class="group-list" ng-init="init()">
+    <h1>App groups</h1>
+    <a ng-repeat="group in groups" class="group {{ getStatusClass(group) }}" href="/groups/{{ group.id }}/apps">
+        <h2>{{ group.name }}</h2>
+        <div class="extra">{{ group.apps.length }} app(s)</div>
+        <div class="status" ng-if="status[group.id] && status[group.id].ref == 1">
+            <span ng-if="status[group.id].missingCounter > 0" class="status-item text-danger"><span class="label label-danger">{{ status[group.id].missingCounter }}</span> out-of-sync</span>
+            <span ng-if="status[group.id].newCounter > 0" class="status-item text-warning"><span class="label label-warning">{{ status[group.id].newCounter }}</span> ahead</span>
+            <span ng-if="status[group.id].missingCounter == 0 && status[group.id].newCounter == 0" class="status-item text-success"><span class="label label-success">{{ status[group.id].in_sync }}</span> in sync</span>
+        </div>
+    </a>
+
+    <div ng-if="groups.length == 0" class="no-groups">No group found for now...</div>
+
+    <a class="group add-new-app-button" href ng-click="addGroupModalOpen()">
+        <span class="glyphicon glyphicon-th"></span> Add new group
+    </a>
+
+    <h1>Other apps</h1>
+    <a class="group" href="/groups/other/apps">
+        <span ng-if="standaloneApps.length == 0">No other app</span>
+        <span ng-if="standaloneApps.length == 1">See the other app</span>
+        <span ng-if="standaloneApps.length > 1">See the {{ standaloneApps.length }} other apps</span>
+    </a>
+</section>

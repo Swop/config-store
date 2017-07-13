@@ -1,0 +1,29 @@
+{% extends 'ConfigStoreBundle::base.html.twig' %}
+
+{% set displayMenu = false %}
+
+{% form_theme loginForm 'ConfigStoreBundle:Form:bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block bodyClass %}login-body{% endblock %}
+{% block mainMenu %}{% endblock %}
+
+{% block body %}
+<div class="login-container">
+    <div class="row login-row-logo">
+        <div class="col-md-6 col-md-offset-3">
+            <img src="{{ asset('img/logo_big.png') }}" width="120" height="85" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel col-md-6 col-md-offset-3">
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error.message }}
+                </div>
+            {% endif %}
+
+            {{ form(loginForm, {action: path('login_check')}) }}
+        </div>
+    </div>
+</div>
+{% endblock body %}
